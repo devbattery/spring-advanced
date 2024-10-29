@@ -59,5 +59,37 @@ public class TemplateMethodTest {
 
         // then
     }
+    
+    @DisplayName("Apply template method pattern to use Anonymous Class")
+    @Test
+    void templateMethodV2() {
+        // given
+        AbstractTemplate template1 = new AbstractTemplate() {
+
+            @Override
+            protected void call() {
+                log.info("Execute business logic 1");
+            }
+
+        };
+
+        AbstractTemplate template2 = new AbstractTemplate() {
+
+            @Override
+            protected void call() {
+                log.info("Execute business logic 2");
+            }
+
+        };
+
+        // when
+        log.info("클래스 이름 1 = {}", template1.getClass());
+        template1.execute();
+
+        log.info("클래스 이름 2 = {}", template2.getClass());
+        template2.execute();
+
+        // then
+    }
 
 }
