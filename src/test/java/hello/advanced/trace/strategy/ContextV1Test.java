@@ -1,6 +1,7 @@
 package hello.advanced.trace.strategy;
 
 import hello.advanced.trace.strategy.code.strategy.ContextV1;
+import hello.advanced.trace.strategy.code.strategy.Strategy;
 import hello.advanced.trace.strategy.code.strategy.StrategyLogic1;
 import hello.advanced.trace.strategy.code.strategy.StrategyLogic2;
 import hello.advanced.trace.template.code.AbstractTemplate;
@@ -95,7 +96,7 @@ public class ContextV1Test {
         // then
     }
 
-    @DisplayName("전략 패턴 사용")
+    @DisplayName("strategy pattern test")
     @Test
     void strategyV1() {
         // given
@@ -105,6 +106,68 @@ public class ContextV1Test {
         // when
         ContextV1 context1 = new ContextV1(strategyLogic1);
         ContextV1 context2 = new ContextV1(strategyLogic2);
+
+        // then
+        context1.execute();
+        context2.execute();
+    }
+    
+    @DisplayName("strategy pattern test to use anonymous class")
+    @Test
+    void strategyV2() {
+        // given
+        Strategy strategy1 = new Strategy() {
+            @Override
+            public void call() {
+                log.info("Execute business logic 1");
+            }
+        };
+        Strategy strategy2 = new Strategy() {
+            @Override
+            public void call() {
+                log.info("Execute business logic 2");
+            }
+        };
+
+        // when
+        ContextV1 context1 = new ContextV1(strategy1);
+        ContextV1 context2 = new ContextV1(strategy2);
+
+        // then
+        context1.execute();
+        context2.execute();
+    }
+
+    @DisplayName("strategy pattern test to use anonymous class compactly")
+    @Test
+    void strategyV3() {
+        // given
+        // when
+        ContextV1 context1 = new ContextV1(new Strategy() {
+            @Override
+            public void call() {
+                log.info("Execute business logic 1");
+            }
+        });
+        ContextV1 context2 = new ContextV1(new Strategy() {
+            @Override
+            public void call() {
+                log.info("Execute business logic 2");
+            }
+        });
+
+        // then
+        context1.execute();
+        context2.execute();
+    }
+
+    @DisplayName("strategy pattern test to use lambda compactly")
+    @Test
+    void strategyV4() {
+        // given
+        // when
+        ContextV1 context1 = new ContextV1(() -> log.info("Execute business logic 1"));
+        ContextV1 context2 = new ContextV1(() -> log.info("Execute business logic 2"));
 
         // then
         context1.execute();
